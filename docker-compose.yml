@@ -1,0 +1,73 @@
+version: "3"
+
+services:
+  server:
+    image: nginx:latest
+    ports:
+      - 82:80
+    volumes:
+      - ./nginx/conf/:/etc/nginx/conf.d/
+      - ./laravel/blog:/var/www/html
+  
+  #phpservice
+  php:
+    build: ./docker
+    volumes:
+      - ./laravel/blog:/var/www/html
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 3000:80
+    environment:
+      - PMA_ARBITRARY=1
+    depends_on:
+      - db
+               
+  server2:
+    image: nginx:latest
+    ports:
+      - 81:80
+    volumes:
+      - ./nginx/conf2/:/etc/nginx/conf.d/
+      - ./laravel2/blog:/var/www/html
+        
+  #phpservice
+  php2:
+    build: ./docker
+    volumes:
+      - ./laravel2/blog:/var/www/html
+ 
+
+  #base de données
+  db:
+    image: mysql:5.7
+    restart: always
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: projet
+      MYSQL_USER: melvin
+      MYSQL_PASSWORD: maloss
+
+  composer:
+    image: node:alpine
+    volumes:
+    - ./laravel/blog:/var/www/html
+    command: sh -c "composer install"
+
+  npm:
+    image: node:alpine
+    volumes:
+    - ./laravel/blog:/var/www/html
+    - ./laravel2/blog:/var/www/html
+    depends_on:
+      - composer
+    command: sh -c "npm install && npm run build"
+
+
+volumes:
+  db_data: {}
+
