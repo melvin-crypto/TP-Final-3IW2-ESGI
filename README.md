@@ -1,4 +1,4 @@
-# Projet
+# Projet réalisé par Melvin PIERRE et Paul BECUE
 
 On peut retrouver les 2 services php, nginx ainsi que la base de données dans le docker-compose.
 Les 2 .env des deux serveurs nginx sont relié à la meme base de données.
