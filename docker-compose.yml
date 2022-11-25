@@ -53,19 +53,18 @@ services:
       MYSQL_PASSWORD: maloss
 
   composer:
-    image: node:alpine
+    image: composer
     volumes:
-    - ./laravel/blog:/var/www/html
-    command: sh -c "composer install"
+    - ./src/Projet:/var/www/html
+    command: "composer install"
 
   npm:
     image: node:alpine
     volumes:
-    - ./laravel/blog:/var/www/html
-    - ./laravel2/blog:/var/www/html
+    - './src/tp:/var/www/html'
     depends_on:
       - composer
-    command: sh -c "npm install && npm run build"
+    command: sh -c "npm install && npm run dev"
 
 
 volumes:
