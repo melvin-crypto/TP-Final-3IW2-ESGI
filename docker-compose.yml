@@ -56,7 +56,7 @@ services:
     image: composer
     volumes:
     - ./src/Projet:/var/www/html
-    command: "composer install"
+    command: composer install
 
   npm:
     image: node:alpine
